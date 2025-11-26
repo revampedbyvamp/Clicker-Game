@@ -1,0 +1,16 @@
+{
+    "name": "clicker-game-root",
+    "version": "1.0.0",
+    "description": "Root package for Clicker Game deployment",
+    "scripts": {
+        "start": "node server/server.js",
+        "install-server": "cd server && npm install",
+        "build": "npm install --prefix server"
+    },
+    "engines": {
+        "node": ">=14.0.0"
+    },
+    "dependencies": {
+        "express": "^4.18.2"
+    }
+}

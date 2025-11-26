@@ -114,6 +114,8 @@ mongoose.connect(process.env.MONGODB_URI)
     })
     .catch((error) => {
         console.error('MongoDB connection error:', error);
+        console.error('Please ensure MONGODB_URI is set correctly in your environment variables.');
+        console.error('If using MongoDB Atlas, ensure your IP is whitelisted (0.0.0.0/0 for Render).');
         process.exit(1);
     });
 
