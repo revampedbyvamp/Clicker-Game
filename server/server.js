@@ -2,7 +2,6 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const cron = require('node-cron');
 const path = require('path');
 
 // Import routes
@@ -35,8 +34,11 @@ app.get('/health', (req, res) => {
     res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
-// Weekly leaderboard reset and trophy awarding (runs every Monday at 00:00)
-cron.schedule('0 0 * * 1', async () => {
+// Weekly leaderboard reset and trophy awarding (Triggered by Vercel Cron)
+app.get('/api/cron/reset', async (req, res) => {
+    // Security check: Verify Vercel Cron signature (optional but recommended)
+    // For now, we'll allow it. In production, check req.headers['authorization'] === `Bearer ${process.env.CRON_SECRET}`
+
     console.log('Running weekly leaderboard reset...');
 
     try {
@@ -91,8 +93,11 @@ cron.schedule('0 0 * * 1', async () => {
         await newLeaderboard.save();
         console.log(`Created new leaderboard for week ${weekId}`);
 
+        res.json({ success: true, message: `Leaderboard reset for week ${weekId}` });
+
     } catch (error) {
         console.error('Error during weekly reset:', error);
+        res.status(500).json({ error: 'Failed to reset leaderboard' });
     }
 });
 

@@ -1,5 +1,5 @@
 // API Configuration
-const API_URL = 'https://clicker-game.onrender.com/api';
+const API_URL = '/api';
 let authToken = localStorage.getItem('authToken');
 
 // Helper function to make API requests
